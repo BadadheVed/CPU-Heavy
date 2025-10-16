@@ -13,6 +13,11 @@ app.get("/cpu", (req, res) => {
     message: "CPU heavy Tasks Done",
   });
 });
+app.get("/", (req, res) => {
+  res.json({
+    message: "Hello World",
+  });
+});
 
 app.listen(3000, () => {
   console.log(`app Running on the port ${3000}`);
