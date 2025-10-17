@@ -1,24 +1,17 @@
-import express from "express";
+import winston from "winston";
 
-const app = express();
-app.use(express.json());
+const logger = winston.createLogger({
+  level: "info", // this means everthing till here and above this level as we mentioned in the belw at the end of this file
 
-app.get("/cpu", (req, res) => {
-  let sum = 0;
-
-  for (let i = 0; i < 1000000000; i++) {
-    sum++;
-  }
-  res.json({
-    message: "CPU heavy Tasks Done",
-  });
-});
-app.get("/", (req, res) => {
-  res.json({
-    message: "Hello World",
-  });
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.prettyPrint()
+  ),
+  transports: [
+    new winston.transports.File({ filename: "error.log", level: "error" }), // this logs will be transported here
+    new winston.transports.File({ filename: "combined.log" }),
+  ],
 });
 
-app.listen(3000, () => {
-  console.log(`app Running on the port ${3000}`);
-});
+logger.error("Hello World");
+logger.info("Hello World");

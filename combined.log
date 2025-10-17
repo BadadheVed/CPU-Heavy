@@ -1,0 +1,10 @@
+{
+  message: 'Hello World',
+  level: 'error',
+  timestamp: '2025-10-17T04:49:34.589Z'
+}
+{
+  message: 'Hello World',
+  level: 'info',
+  timestamp: '2025-10-17T04:49:34.590Z'
+}
