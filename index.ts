@@ -1,17 +1,25 @@
-import winston from "winston";
+import express from "express";
+import { middleware } from "./middleware";
 
-const logger = winston.createLogger({
-  level: "info", // this means everthing till here and above this level as we mentioned in the belw at the end of this file
-
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.prettyPrint()
-  ),
-  transports: [
-    new winston.transports.File({ filename: "error.log", level: "error" }), // this logs will be transported here
-    new winston.transports.File({ filename: "combined.log" }),
-  ],
+const app = express();
+app.use(express.json());
+app.use(middleware);
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
 });
 
-logger.error("Hello World");
-logger.info("Hello World");
+app.get("/cpu", (req, res) => {
+  const time = Date.now();
+  for (let i = 0; i < 100000000; i++) {
+    Math.random();
+  }
+
+  res.send(
+    `CPU Intensive Task Completed time taken by it is ${Date.now() - time} ms`
+  );
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
